@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suaee.entity.User;
+import com.suaee.entity.user.User;
 import com.suaee.mapper.UserMapper;
 import com.suaee.service.UserService;
 
@@ -24,15 +24,8 @@ public class UserServiceImpl implements UserService {
 	public boolean addUser(User user) {
 		
 		LOGGER.info("添加用户,user={}",user);
-		// 设置创建时间
-		user.setCreateTime(new Date());
-		// 设置更新时间
-		user.setUpdateTime(user.getCreateTime());
-		// 设置默认状态为1，表示数据生效
-		user.setStatus(1);
 		//调用通用mapper的方法添加一个用户信息，添加成功返回TRUE，否则返回FALSE
 		return userMapper.insert(user) == 1;
-		
 	}
 
 	@Override
@@ -42,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean deleteUserById(Integer id) {
+	public boolean deleteUserById(Long id) {
 		
 		LOGGER.info("删除用户,userId={}",id);
 		
@@ -53,10 +46,17 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		// 设置更新时间
-		user.setUpdateTime(new Date());
+		user.setUpdateDate(new Date());
 		// 设置逻辑状态为0，表示数据失效
-		user.setStatus(0);
+		user.setDelFlag((short) 0);
 		//调用通用mapper的方法添加一个用户信息，添加成功返回TRUE，否则返回FALSE
-		return userMapper.updateByPrimaryKey(user) == 1;
+		return userMapper.deleteUserById(user) == 1;
 	}
+
+	@Override
+	public User queryUserById(Long id) {
+		userMapper.queryById(id);
+		return null;
+	}
+
 }

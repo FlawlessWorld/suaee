@@ -44,4 +44,9 @@
 		<!-- 当获取连接失败重试次数 -->
 		<property name="acquireRetryAttempts" value="2"></property>
 	</bean>
+	
+	<!-- snowflake 分布式id生成策略 -->
+	<bean id="idGenerator" class="com.suaee.util.id.IdGenerator" scope="singleton">
+		<constructor-arg name="datacenterId" value="0" type="long"/>
+	</bean>
 </beans>
