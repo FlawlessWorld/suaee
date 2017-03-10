@@ -5,22 +5,29 @@
   
 <mapper namespace="com.suaee.mapper.UserMapper">
 
+	<sql id="selectBase">
+			ID,DEL_FLAG,CREATE_DATE,UPDATE_DATE,NICKNAME,USERNAME,PASSWORD,TEL,EMAIL
+	</sql>
 	<select id="queryById" resultType="User">
-		select 
-			id,name,age,tel,address,create_time,update_time,status
-		from 
-			users
-		where id = #{id}
+		SELECT 
+			<include refid="selectBase"></include>
+		FROM USERS WHERE ID = #{id}
 	</select>
-	
 	<select id="queryAll" resultType="User">
-		select 
-			id,name,age,tel,address,create_time,update_time,status
-		from 
-			users
-		where status = 1
-		order by create_time desc
-<!-- 		limit #{offset},#{limit} -->
+		SELECT 
+			<include refid="selectBase"></include>
+		FROM USERS WHERE DEL_FLAG = 1 ORDER BY CREATE_DATE DESC
 	</select>
-	
+	<insert id="insert" parameterType="User">
+		INSERT INTO USERS(
+			ID,DEL_FLAG,CREATE_DATE,UPDATE_DATE,NICKNAME,USERNAME,PASSWORD,TEL,EMAIL
+		)VALUES(
+			#{id},#{delFlag},#{createDate},#{updateDate},#{nickName},#{userName},#{password},#{tel},#{email}
+		)
+	</insert>
+	<update id="deleteUserById" parameterType="User">
+		UPDATE USERS SET 
+			UPDATE_DATE = #{updateDate},DEL_FLAG = #{delFlag}
+		WHERE ID = #{id}
+	</update>
 </mapper>

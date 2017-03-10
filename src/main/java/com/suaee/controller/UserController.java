@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.suaee.entity.User;
+import com.suaee.entity.user.User;
 import com.suaee.service.UserService;
 
 @RequestMapping("user")
@@ -30,6 +30,13 @@ public class UserController {
 	private UserService userService;
 	
 	private ObjectMapper mapper = new ObjectMapper();
+	
+	
+	@RequestMapping("to/{page}")
+	public String listUser(@PathVariable("page")String page) {
+		// 所有用户信息
+		return page;
+	}
 
 	/**
 	 * 用户列表页
@@ -95,7 +102,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/deleteUser")
-	public String deleteUser(@RequestParam("id") Integer id, Model model) {
+	public String deleteUser(@RequestParam("id") Long id, Model model) {
 		// 调用service层删除用户信息
 		boolean deleteUserFlag = userService.deleteUserById(id);
 		if (deleteUserFlag) {

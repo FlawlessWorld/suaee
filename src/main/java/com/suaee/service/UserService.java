@@ -2,7 +2,7 @@ package com.suaee.service;
 
 import java.util.List;
 
-import com.suaee.entity.User;
+import com.suaee.entity.user.User;
 
 public interface UserService {
 
@@ -24,5 +24,12 @@ public interface UserService {
 	 * @param id
 	 * @return
 	 */
-	boolean deleteUserById(Integer id);
+	boolean deleteUserById(Long id);
+
+	/**
+	 * 根据用户Id查询用户
+	 * @param id
+	 * @return
+	 */
+	User queryUserById(Long id);
 }
